@@ -5,7 +5,7 @@
 
   <groupId>com.thinkbiganalytics.kylo</groupId>
   <artifactId>kylo</artifactId>
-  <version>0.10.1-SNAPSHOT</version>
+  <version>0.10.1</version>
   <packaging>pom</packaging>
   <name>kylo</name>
   <description>Kylo is an enterprise-ready, open source, data lake management software platform for Hadoop and Spark integrating
@@ -95,8 +95,9 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <java.version>1.8</java.version>
-    <spark.java.version>1.7</spark.java.version>
     <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+    <skipTests>false</skipTests>
     <skipITs>${skipTests}</skipITs>
     <skipUTs>${skipTests}</skipUTs>
     <skipDebian>false</skipDebian>
@@ -145,7 +146,6 @@
     <jersey.version>2.22.2</jersey.version>
     <joda.time.version>2.9.2</joda.time.version>
     <junit.version>4.12</junit.version>
-    <maven.compiler.plugin.version>3.8.0</maven.compiler.plugin.version>
     <maven-jar-plugin.version>2.6</maven-jar-plugin.version>
     <maven-javadoc-plugin.version>2.10.3</maven-javadoc-plugin.version>
     <maven-source-plugin.version>3.0.0</maven-source-plugin.version>
@@ -188,13 +188,11 @@
     <!-- Plugin Versions -->
     <plugin.license.version>1.16</plugin.license.version>
 
-    <plugin.enforcer.version>1.4.1</plugin.enforcer.version>
-
     <liquibase.version>3.5.3</liquibase.version>
     <!--<liquibase.version>3.3.5</liquibase.version>-->
     <liquibase-slf4j.version>2.0.0</liquibase-slf4j.version>
     <liquibase-hibernate4.version>3.5</liquibase-hibernate4.version>
-    <maven.scala.plugin.version>3.4.4</maven.scala.plugin.version>
+    <maven.scala.plugin.version>2.15.2</maven.scala.plugin.version>
     <maven.surefire.plugin.version>2.20</maven.surefire.plugin.version>
     <maven.shade.plugin.version>2.4.3</maven.shade.plugin.version>
     <maven.site.plugin.version>3.6</maven.site.plugin.version>
@@ -226,7 +224,7 @@
       <id>central</id>
       <name>Maven Repository Switchboard</name>
       <layout>default</layout>
-      <url>http://repo1.maven.org/maven2</url>
+      <url>https://repo1.maven.org/maven2</url>
       <snapshots>
         <enabled>false</enabled>
       </snapshots>
@@ -234,9 +232,19 @@
     <repository>
       <id>spring-milestones</id>
       <name>Spring Milestones</name>
-      <url>https://repo.spring.io/libs-milestone</url>
+      <url>https://repo.spring.io/milestone</url>
       <snapshots>
         <enabled>false</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>jboss-public-repository-group</id>
+      <url>https://repository.jboss.org/nexus/content/groups/public/</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
       </snapshots>
     </repository>
   </repositories>
@@ -1113,35 +1121,6 @@
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-enforcer-plugin</artifactId>
-        <version>${plugin.enforcer.version}</version>
-        <executions>
-          <execution>
-            <id>enforce-maven</id>
-            <goals>
-              <goal>enforce</goal>
-            </goals>
-            <configuration>
-              <rules>
-                <requireMavenVersion>
-                  <version>3.3.9</version>
-                </requireMavenVersion>
-              </rules>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>${maven.compiler.plugin.version}</version>
-        <configuration>
-          <source>${java.version}</source>
-          <target>${java.version}</target>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
           <runOrder>random</runOrder>
@@ -1210,8 +1189,8 @@
           <version>3.1.0</version>
         </plugin>
         <plugin>
-          <groupId>net.alchim31.maven</groupId>
-          <artifactId>scala-maven-plugin</artifactId>
+          <groupId>org.scala-tools</groupId>
+          <artifactId>maven-scala-plugin</artifactId>
           <version>${maven.scala.plugin.version}</version>
         </plugin>
         <plugin>
@@ -1468,7 +1447,7 @@
         <repository>
           <id>mapr-releases</id>
           <name>MapR Repository</name>
-          <url>http://repository.mapr.com/maven/</url>
+          <url>https://repository.mapr.com/maven/</url>
           <snapshots>
             <enabled>false</enabled>
           </snapshots>
